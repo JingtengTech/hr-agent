@@ -1,0 +1,110 @@
+{
+    "nodes": [
+        {
+            "nodeId": "db78fc23-0673-4d58-b1f0-315a5cb2e2dc",
+            "action": 0,
+            "prompt": "我可以帮您计算上海的产假结束时间。您只需要告诉我产假开始的时间等信息即可。",
+            "welcomeType": 1,
+            "appearance": {
+                "startPoint": "{\"x\":200,\"y\":300}",
+                "textPoint": "{\"x\":200,\"y\":300}"
+            }
+        },
+        {
+            "nodeId": "aba7d03c-9784-4dc4-a22f-0e89364ef664",
+            "action": 1,
+            "infoToBeAcquired": "产假开始时间",
+            "searchVectorDb": false,
+            "outputVariableName": "startDate",
+            "validation": "",
+            "prompt": "注意！首先检查历史记录里用户是否已经提供了产假开始时间",
+            "appearance": {
+                "startPoint": "{\"x\":590,\"y\":300}",
+                "textPoint": "{\"x\":590,\"y\":300}"
+            }
+        },
+        {
+            "nodeId": "98e8d0dd-4961-4dd8-8f4c-f5c5c4fe3f1a",
+            "action": 1,
+            "infoToBeAcquired": "几胞胎",
+            "searchVectorDb": false,
+            "outputVariableName": "nbabies",
+            "appearance": {
+                "startPoint": "{\"x\":960,\"y\":300}",
+                "textPoint": "{\"x\":960,\"y\":300}"
+            }
+        },
+        {
+            "nodeId": "afa0525f-aa2d-4935-b260-f983ce1ac6b5",
+            "action": 1,
+            "infoToBeAcquired": "是否难产",
+            "outputVariableName": "difficult",
+            "prompt": "只需要知道是否难产，不需要问其他问题。",
+            "appearance": {
+                "startPoint": "{\"x\":1350,\"y\":300}",
+                "textPoint": "{\"x\":1350,\"y\":300}"
+            }
+        },
+        {
+            "nodeId": "7c27713f-4d91-4d43-876a-546b81744f76",
+            "action": 6,
+            "lang": "python",
+            "prompt": "生成一段python代码来计算用户的产假结束时间（开始上班时间）\n\n开始上班时间 = 产假开始时间 + 法定产假天数 + 生育假天数\n\n代码输出为最后开始上班时间\n\n规则：\n1. 法定产假为98天。生育多胞胎的，每多生育1个婴儿，增加产假15天；难产的，增加产假15天。\n2. 生育假为60天，遇到以下列明的法定假日时顺延，但是正常周末不要顺延。\n\n已知：\n产假开始时间：{{startDate}} \n几胞胎：{{nbabies}}\n是否难产：{{difficult}}\n\n以下是2025年法定假日安排，只要包含在生育假期间都应该顺延相应的天数。\n\n一、元旦：1月1日 放假1天\n二、春节：1月28日 放假4天\n三、清明节：4月4日 放假1天\n四、劳动节：5月1日 放假3天\n五、端午节：5月31日 放假1天\n六、国庆节：10月1日 放假3天\n七、中秋节：10月1日 放假1天\n\n注意！不要顺延周末\n",
+            "codeMethod": 1,
+            "retryOnError": true,
+            "retryCount": 3,
+            "outputVariableName": "",
+            "sendToUser": true,
+            "appearance": {
+                "startPoint": "{\"x\":1770,\"y\":300}",
+                "textPoint": "{\"x\":1770,\"y\":300}"
+            }
+        }
+    ],
+    "edges": [
+        {
+            "edgeId": "b49ef9c7-0e10-47f2-9e49-1598f0ba6e8a",
+            "sourceNodeId": "aba7d03c-9784-4dc4-a22f-0e89364ef664",
+            "targetNodeId": "98e8d0dd-4961-4dd8-8f4c-f5c5c4fe3f1a",
+            "type": "flow-link",
+            "appearance": {
+                "startPoint": "{\"x\":740,\"y\":300}",
+                "endPoint": "{\"x\":810,\"y\":300}",
+                "pointsList": "[{\"x\":740,\"y\":300},{\"x\":840,\"y\":300},{\"x\":710,\"y\":300},{\"x\":810,\"y\":300}]"
+            }
+        },
+        {
+            "edgeId": "112738bc-d399-48e4-aebb-472b5b63020c",
+            "sourceNodeId": "98e8d0dd-4961-4dd8-8f4c-f5c5c4fe3f1a",
+            "targetNodeId": "afa0525f-aa2d-4935-b260-f983ce1ac6b5",
+            "type": "flow-link",
+            "appearance": {
+                "startPoint": "{\"x\":1110,\"y\":300}",
+                "endPoint": "{\"x\":1200,\"y\":300}",
+                "pointsList": "[{\"x\":1110,\"y\":300},{\"x\":1210,\"y\":300},{\"x\":1100,\"y\":300},{\"x\":1200,\"y\":300}]"
+            }
+        },
+        {
+            "edgeId": "eb0ec13e-44ad-425f-8496-5b6b0128f89a",
+            "sourceNodeId": "afa0525f-aa2d-4935-b260-f983ce1ac6b5",
+            "targetNodeId": "7c27713f-4d91-4d43-876a-546b81744f76",
+            "type": "flow-link",
+            "appearance": {
+                "startPoint": "{\"x\":1500,\"y\":300}",
+                "endPoint": "{\"x\":1620,\"y\":300}",
+                "pointsList": "[{\"x\":1500,\"y\":300},{\"x\":1600,\"y\":300},{\"x\":1520,\"y\":300},{\"x\":1620,\"y\":300}]"
+            }
+        },
+        {
+            "edgeId": "2da2a85d-ab63-4885-b85d-5f20e6da0b7e",
+            "sourceNodeId": "db78fc23-0673-4d58-b1f0-315a5cb2e2dc",
+            "targetNodeId": "aba7d03c-9784-4dc4-a22f-0e89364ef664",
+            "type": "flow-link",
+            "appearance": {
+                "startPoint": "{\"x\":350,\"y\":300}",
+                "endPoint": "{\"x\":440,\"y\":300}",
+                "pointsList": "[{\"x\":350,\"y\":300},{\"x\":450,\"y\":300},{\"x\":340,\"y\":300},{\"x\":440,\"y\":300}]"
+            }
+        }
+    ]
+}
